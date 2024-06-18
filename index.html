@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      height: 100vh;
+      margin: 0;
+      background-image: url('https://i.imgur.com/nOxjfGV.png');
+      background-size: cover;
+      background-position: center;
+      font-family: 'Roboto', sans-serif;
+      color: #ffffff;
+      overflow-y: scroll;
+      padding-top: 50px;
+    }
+    .hidden {
+      display: none;
+    }
+    .centered {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      width: 100%;
+      text-align: center;
+    }
+    .login-box, .buttons-box {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      margin-bottom: 20px;
+    }
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      font-size: 16px;
+    }
+    .button {
+      padding: 10px 20px;
+      background-color: #ff0000;
+      color: #ffffff;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 16px;
+      margin-top: 10px;
+      transition: background-color 0.3s ease;
+    }
+    .button:hover {
+      background-color: #cc0000;
+    }
+    .data-page {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 80%;
+      max-width: 1200px;
+      padding: 40px;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background-color: #fefefe;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 1200px;
+      border-radius: 10px;
+    }
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+    th, td {
+      border: 1px solid #dddddd;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #444;
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+    td {
+      background-color: rgba(255, 255, 255, 0.9);
+      color: black;
+    }
+    tr:nth-child(even) td {
+      background-color: rgba(255, 255, 255, 0.7);
+    }
+    tr:hover td {
+      background-color: #cc0000; /* Same color as the button hover effect */
+    }
+    .pagination {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .pagination button {
+      padding: 10px 20px;
+      margin: 5px;
+      background-color: #ff0000;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+    .pagination button:hover {
+      background-color: #cc0000;
+    }
+    .pagination button:disabled {
+      background-color: #cccccc;
+      cursor: not-allowed;
+    }
+    .warning {
+      color: yellow;
+      margin-top: 10px;
+    }
+    .error-message {
+      color: #ff0000;
+      margin-top: 10px;
+    }
+    .property-name {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .welcome-message {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    .support-link {
+      color: #ffffff;
+      margin-top: 10px;
+    }
+    .support-link a {
+      color: #ff0000;
+      text-decoration: none;
+    }
+    .support-link a:hover {
+      text-decoration: underline;
+    }
+    .header-message {
+      margin-bottom: 20px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .data-container {
+      width: 100%;
+      max-width: 1200px;
+    }
+    .data-label {
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 20px;
+      text-align: center;
+    }
+    .banner, .logo {
+      width: 100%;
+      max-width: 1000px;
+      margin-bottom: 20px;
+    }
+    .logo {
+      width: 150px;
+      height: auto;
+    }
+    .address-info {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      border-radius: 10px;
+      font-size: 18px;
+      text-align: right;
+      line-height: 1.6;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <div class="address-info">
+    <p>Marathon Avenue<br>
+    Del Perro<br>
+    Los Santos<br>
+    Landline: 606</p>
+  </div>
+  <div class="centered">
+    <img src="https://i.imgur.com/WoGAe2o.png" class="logo" alt="Logo Image">
+    <div class="login-box" id="login-page">
+      <p class="header-message">Check the security status of your property!</p>
+      <h2>Login</h2>
+      <label for="propertyID">Property ID:</label>
+      <input type="text" id="propertyID"><br><br>
+      <label for="password">Password:</label>
+      <input type="password" id="password"><br><br>
+      <button class="button" onclick="login()">Login</button>
+      <p class="warning">Please wait up to 10 seconds for the content to load after logging in.</p>
+      <p id="error-message" class="error-message hidden">Wrong Property ID or Password</p>
+      <p class="support-link">Forgot your Login credentials? Don't worry! You can reach out to Live Support <a href="https://discord.com/channels/1158823814113808525/1167272673357873262" target="_blank">HERE</a>!</p>
+    </div>
+    <div class="buttons-box hidden" id="buttons-page">
+      <p class="property-name" id="property-name"></p>
+      <p class="welcome-message" id="welcome-message"></p>
+      <button class="button" onclick="logout()">Logout</button>
+      <button class="button" onclick="window.open('https://discord.com/channels/1158823814113808525/1167272673357873262', '_blank')">Live Support</button>
+      <button class="button" onclick="window.open('https://protech.gta.world', '_blank')">Main Website</button>
+      <div class="data-container">
+        <p class="data-label">Current Patrols (Weekly)</p>
+        <div id="weekly-data"></div>
+        <div class="pagination" id="weekly-pagination"></div>
+      </div>
+      <div class="data-container">
+        <p class="data-label">Patrol Archive</p>
+        <div id="archive-data"></div>
+        <div class="pagination" id="archive-pagination"></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+  <script>
+    let currentWeeklyEntries = [];
+    let currentWeeklyPage = 1;
+    let currentArchiveEntries = [];
+    let currentArchivePage = 1;
+    const entriesPerPage = 15;
+    let currentPropertyName = '';
+    let currentUserName = '';
+
+    function login() {
+      const propertyID = document.getElementById('propertyID').value;
+      const password = document.getElementById('password').value;
+      document.getElementById('error-message').classList.add('hidden');
+      google.script.run.withSuccessHandler(onLoginSuccess).createInterface(propertyID, password);
+    }
+
+    function onLoginSuccess(result) {
+      if (typeof result === 'object' && result !== null) {
+        currentPropertyName = result.propertyName;
+        currentUserName = result.userName;
+        document.getElementById('property-name').innerText = currentPropertyName;
+        document.getElementById('welcome-message').innerText = `Welcome, ${currentUserName}!`;
+
+        document.getElementById('login-page').classList.add('hidden');
+        document.getElementById('buttons-page').classList.remove('hidden');
+
+        google.script.run.withSuccessHandler(showWeeklyEntries).getPropertyData(currentPropertyName, 'General');
+        google.script.run.withSuccessHandler(showArchiveEntries).getPropertyData(currentPropertyName, 'Patrol Archive');
+      } else {
+        document.getElementById('error-message').innerText = 'Wrong Property ID or Password';
+        document.getElementById('error-message').classList.remove('hidden');
+      }
+    }
+
+    function logout() {
+      currentWeeklyEntries = [];
+      currentWeeklyPage = 1;
+      currentArchiveEntries = [];
+      currentArchivePage = 1;
+      document.getElementById('propertyID').value = '';
+      document.getElementById('password').value = '';
+      document.getElementById('login-page').classList.remove('hidden');
+      document.getElementById('buttons-page').classList.add('hidden');
+    }
+
+    function showWeeklyEntries(entries) {
+      currentWeeklyEntries = entries;
+      showEntries(entries, 'weekly-data', 'weekly-pagination', currentWeeklyPage);
+    }
+
+    function showArchiveEntries(entries) {
+      currentArchiveEntries = entries;
+      showEntries(entries, 'archive-data', 'archive-pagination', currentArchivePage);
+    }
+
+    function showEntries(entries, containerId, paginationId, page) {
+      const container = document.getElementById(containerId);
+      const pagination = document.getElementById(paginationId);
+      container.innerHTML = '';
+      pagination.innerHTML = '';
+
+      const start = (page - 1) * entriesPerPage;
+      const end = start + entriesPerPage;
+      const paginatedEntries = entries.slice(start + 1, end + 1); // Skip the header row
+
+      if (paginatedEntries.length === 0) {
+        container.innerHTML = '<p>No patrols to display yet.</p>';
+        return;
+      }
+
+      const table = document.createElement('table');
+
+      // Create and append header row if it doesn't already exist in the table
+      if (container.getElementsByTagName('table').length === 0) {
+        const headerRow = document.createElement('tr');
+        const headerColumns = [0, 1, 2, 3, 4, 5, 7, 8, 9]; // Columns to display
+        headerColumns.forEach((colIndex) => {
+          const th = document.createElement('th');
+          th.innerText = entries[0][colIndex];
+          headerRow.appendChild(th);
+        });
+        table.appendChild(headerRow);
+      }
+
+      paginatedEntries.forEach(row => {
+        const tr = document.createElement('tr');
+        const dataColumns = [0, 1, 2, 3, 4, 5, 7, 8, 9]; // Columns to display
+        dataColumns.forEach((colIndex) => {
+          const td = document.createElement('td');
+          td.innerText = row[colIndex];
+          tr.appendChild(td);
+        });
+        table.appendChild(tr);
+      });
+
+      container.appendChild(table);
+
+      const totalPages = Math.ceil((entries.length - 1) / entriesPerPage); // Subtract 1 for the header row
+      for (let i = 1; i <= totalPages; i++) {
+        const button = document.createElement('button');
+        button.innerText = i;
+        button.onclick = (function(page) {
+          return function() {
+            if (containerId === 'weekly-data') {
+              currentWeeklyPage = page;
+              showEntries(currentWeeklyEntries, containerId, paginationId, page);
+            } else if (containerId === 'archive-data') {
+              currentArchivePage = page;
+              showEntries(currentArchiveEntries, containerId, paginationId, page);
+            }
+          }
+        })(i);
+
+        if (i === page) {
+          button.disabled = true;
+        }
+
+        pagination.appendChild(button);
+      }
+    }
+  </script>
+</body>
+</html>
+
