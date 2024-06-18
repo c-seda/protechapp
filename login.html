@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+    <h1>Client Login</h1>
+    <form id="loginForm">
+      <label for="propertyID">Property ID:</label>
+      <input type="text" id="propertyID" name="propertyID"><br><br>
+      
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password"><br><br>
+      
+      <input type="button" value="Login" onclick="login()">
+    </form>
+    
+    <div id="result"></div>
+
+    <script>
+      function login() {
+        var propertyID = document.getElementById("propertyID").value;
+        var password = document.getElementById("password").value;
+        
+        google.script.run.withSuccessHandler(showData).createInterface(propertyID, password);
+      }
+
+      function showData(data) {
+        var resultDiv = document.getElementById("result");
+        resultDiv.innerHTML = data;
+      }
+    </script>
+  </body>
+</html>
